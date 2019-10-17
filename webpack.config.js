@@ -1,32 +1,60 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HappyPack = require('happypack');
 
 module.exports = {
     mode: 'development',
-    entry: "./index.js",    
+    entry: "./client/src/index.tsx",
     output: {
        path: path.resolve(__dirname, './dist'),
        filename: '[name].bundle.js'
     },
+    devtool: 'inline-source-map',
     module:{
         rules: [
             {
-                test: /\.js$/,
+                test: /\.tsx?$/,
                 exclude: /node_modules/,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['@babel/preset-env', '@babel/preset-react']
-                        }
-                    }
-                ]
+                use: 'happypack/loader?id=tsx',
+            },
+            {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                use: 'happypack/loader?id=jsx',
             }
         ]
     },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    },
     plugins:[
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, './template/index.html')
+            template: path.resolve(__dirname, './client/template/index.html')
         }),
+        new HappyPack({
+            id: 'jsx',
+            threads: 2,
+            loaders: [
+                {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react']
+                    }
+                }
+            ]
+        }),
+        new HappyPack({
+            id: 'tsx',
+            threads: 4,
+            loaders: [
+                {
+                    loader: 'ts-loader',
+                    options: {
+                        happyPackMode : true,
+                        transpileOnly: true
+                    }
+                }
+            ]
+        })
     ]
 }

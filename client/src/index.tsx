@@ -3,6 +3,10 @@ import * as ReactDOM from 'react-dom';
 
 import Text from './components/Text';
 
-const App = () => <div>12443<Text content={123}/></div>;
+const App = () => <div>12443<Text content={"123"}/></div>;
+
+import('./libs/index').then((module) => {
+    console.log(module.a);
+})
 
 ReactDOM.render(<App/>, document.getElementById('app'));

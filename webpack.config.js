@@ -1,13 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HappyPack = require('happypack');
 
 module.exports = {
     mode: 'development',
-    entry: "./client/src/index.tsx",
+    entry: {
+        index : './client/src/index.tsx'
+    },
     output: {
        path: path.resolve(__dirname, './dist'),
-       filename: '[name].bundle.js'
+       filename: '[name].[contenthash].js'
     },
     devtool: 'inline-source-map',
     module:{
@@ -28,6 +31,7 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     plugins:[
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './client/template/index.html')
         }),
@@ -56,5 +60,5 @@ module.exports = {
                 }
             ]
         })
-    ]
+    ],
 }

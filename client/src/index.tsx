@@ -1,12 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-
+import Index from './pages';
 import Text from './components/Text';
 
-const App = () => <div>12443<Text content={"123"}/></div>;
-
-import('./libs/index').then((module) => {
-    console.log(module.a);
-})
+const App = () => <Index />;
 
 ReactDOM.render(<App/>, document.getElementById('app'));

@@ -5,4 +5,4 @@ interface TextProps {
     content: string
 }
 
-export default (props : TextProps) => <h5>嘎嘎</h5>;
+export default (props : TextProps) => <h5>嘎嘎123</h5>;
